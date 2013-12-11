@@ -17,27 +17,27 @@ int main () {
   chesses_t init_chesses;
 
   shared_ptr<chess> gy (new guan_yu (point (2, 1)));
-  init_chesses.push_back (gy);
+  init_chesses.push_chess (gy);
   shared_ptr<chess> zf (new zhang_fei (point (0, 0)));
-  init_chesses.push_back (zf);
+  init_chesses.push_chess (zf);
   shared_ptr<chess> zy (new zhao_yun (point (0, 3)));
-  init_chesses.push_back (zy);
+  init_chesses.push_chess (zy);
   shared_ptr<chess> mc (new ma_chao (point (2, 0)));
-  init_chesses.push_back (mc);
+  init_chesses.push_chess (mc);
   shared_ptr<chess> hz (new huang_zhong (point (2, 3)));
-  init_chesses.push_back (hz);
+  init_chesses.push_chess (hz);
 
   shared_ptr<chess> cc (new huang_zhong (point (0, 1)));
-  init_chesses.push_back (cc);
+  init_chesses.push_chess (cc);
 
   shared_ptr<chess> z1 (new zu (point (4, 0)));
-  init_chesses.push_back (z1);
+  init_chesses.push_chess (z1);
   shared_ptr<chess> z2 (new zu (point (3, 1)));
-  init_chesses.push_back (z2);
+  init_chesses.push_chess (z2);
   shared_ptr<chess> z3 (new zu (point (3, 2)));
-  init_chesses.push_back (z3);
+  init_chesses.push_chess (z3);
   shared_ptr<chess> z4 (new zu (point (4, 3)));
-  init_chesses.push_back (z4);
+  init_chesses.push_chess (z4);
 
   queue.push_back (init_chesses);
   board_mask bm (init_chesses);
