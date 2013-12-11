@@ -16,27 +16,27 @@ int main () {
   // input init 
   chesses_t init_chesses;
 
-  shared_ptr<chess> gy (new guan_yu (point (2, 1)));
+  chess gy (chess_type::guan_yu, point (2, 1));
   init_chesses.push_chess (gy);
-  shared_ptr<chess> zf (new zhang_fei (point (0, 0)));
+  chess zf (chess_type::zhang_fei, point (0, 0));
   init_chesses.push_chess (zf);
-  shared_ptr<chess> zy (new zhao_yun (point (0, 3)));
+  chess zy (chess_type::zhao_yun, point (0, 3));
   init_chesses.push_chess (zy);
-  shared_ptr<chess> mc (new ma_chao (point (2, 0)));
+  chess mc (chess_type::ma_chao, point (2, 0));
   init_chesses.push_chess (mc);
-  shared_ptr<chess> hz (new huang_zhong (point (2, 3)));
+  chess hz (chess_type::huang_zhong, point (2, 3));
   init_chesses.push_chess (hz);
 
-  shared_ptr<chess> cc (new huang_zhong (point (0, 1)));
+  chess cc (chess_type::cao_cao, point (0, 1));
   init_chesses.push_chess (cc);
 
-  shared_ptr<chess> z1 (new zu (point (4, 0)));
+  chess z1 (chess_type::zu, point (4, 0));
   init_chesses.push_chess (z1);
-  shared_ptr<chess> z2 (new zu (point (3, 1)));
+  chess z2 (chess_type::zu, point (3, 1));
   init_chesses.push_chess (z2);
-  shared_ptr<chess> z3 (new zu (point (3, 2)));
+  chess z3 (chess_type::zu, point (3, 2));
   init_chesses.push_chess (z3);
-  shared_ptr<chess> z4 (new zu (point (4, 3)));
+  chess z4 (chess_type::zu, point (4, 3));
   init_chesses.push_chess (z4);
 
   queue.push_back (init_chesses);

@@ -29,11 +29,28 @@ struct board_map {
   }
 };
 
+enum chess_type {
+  cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
+};
+
+struct chess_id {
+  chess_type type;
+  int width;
+  int height;
+  int key;
+  std::string info;
+};
+
+struct chess_id get_chess (chess_type type);
 
 class chess {
 public:
+  chess (chess_type type, point p)
+    : pos_ (p)
+    { id_ = get_chess (type); }
+public:
   std::string to_mask () const;
-  virtual int key () const = 0;
+  virtual int key () const { return id_.key; }
   void fill_board (board_map &board) const;
 //  void to_right (board_map &input, 
 //                 board_map &output);
@@ -42,19 +59,19 @@ public:
 //  void to_down (chessboard &board) = 0;
 protected:
   point pos_;
-  int width_;
-  int height_;
+  chess_id id_;
 };
 
 enum direction {
   up, down, right, left
 };
 
+
 class chessboard {
 public:
-  std::deque<std::shared_ptr<chess> > chesses;
+  std::deque<chess> chesses;
   struct board_map board_;
-  void push_chess (std::shared_ptr<chess> &c);
+  void push_chess (chess &c);
   bool is_solved () const;
   std::deque<chessboard> can_move_steps () const;
 };
@@ -80,53 +97,54 @@ bool operator < (const board_mask &l, const board_mask &r);
 //  chesses_t chesses_;
 //  board_map board_;
 //};
-class cao_cao : public chess {
-public:
-  cao_cao (point &p)
-    { pos_ = p; width_ = 2; height_ = 2; }
-  int key () const { return 1;}
-};
 
-class guan_yu : public chess {
-public:
-  guan_yu (const point &p)
-    { pos_ = p; width_ = 2; height_ = 1; }
-  int key () const { return 10;}
-};
-
-class zhang_fei : public chess {
-public:
-  zhang_fei (const point &p)
-    { pos_ = p; width_ = 1; height_ = 2; }
-  int key () const { return 11;}
-};
-
-class zhao_yun : public chess {
-public:
-  zhao_yun (const point &p)
-    { pos_ = p; width_ = 1; height_ = 2; }
-  int key () const { return 12;}
-};
-
-class ma_chao : public chess {
-public:
-  ma_chao (const point &p)
-    { pos_ = p; width_ = 1; height_ = 2; }
-  int key () const { return 13;}
-};
-
-class huang_zhong : public chess {
-public:
-  huang_zhong (const point &p)
-    { pos_ = p; width_ = 1; height_ = 2; }
-  int key () const { return 14;}
-};
-
-class zu : public chess {
-public:
-  zu (const point &p)
-    { pos_ = p; width_ = 1; height_ = 1; }
-  int key () const { return 20;}
-};
+//class cao_cao : public chess {
+//public:
+//  cao_cao (point &p)
+//    { pos_ = p; width_ = 2; height_ = 2; }
+//  int key () const { return 1;}
+//};
+//
+//class guan_yu : public chess {
+//public:
+//  guan_yu (const point &p)
+//    { pos_ = p; width_ = 2; height_ = 1; }
+//  int key () const { return 10;}
+//};
+//
+//class zhang_fei : public chess {
+//public:
+//  zhang_fei (const point &p)
+//    { pos_ = p; width_ = 1; height_ = 2; }
+//  int key () const { return 11;}
+//};
+//
+//class zhao_yun : public chess {
+//public:
+//  zhao_yun (const point &p)
+//    { pos_ = p; width_ = 1; height_ = 2; }
+//  int key () const { return 12;}
+//};
+//
+//class ma_chao : public chess {
+//public:
+//  ma_chao (const point &p)
+//    { pos_ = p; width_ = 1; height_ = 2; }
+//  int key () const { return 13;}
+//};
+//
+//class huang_zhong : public chess {
+//public:
+//  huang_zhong (const point &p)
+//    { pos_ = p; width_ = 1; height_ = 2; }
+//  int key () const { return 14;}
+//};
+//
+//class zu : public chess {
+//public:
+//  zu (const point &p)
+//    { pos_ = p; width_ = 1; height_ = 1; }
+//  int key () const { return 20;}
+//};
 
 #endif
