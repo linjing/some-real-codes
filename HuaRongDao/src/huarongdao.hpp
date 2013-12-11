@@ -75,13 +75,10 @@ public:
   bool is_solved () const;
   std::deque<chessboard> can_move_steps () const;
 };
-typedef chessboard chesses_t;
-
-
 
 struct board_mask {
   std::string mask;
-  board_mask (chesses_t &chesses);
+  board_mask (chessboard &chesses);
   std::string get_mask () const { return mask; }
 };
 
@@ -94,7 +91,7 @@ bool operator < (const board_mask &l, const board_mask &r);
 //public:
 //  virtual void move (chess &c, const direction &d) = 0;
 //private:
-//  chesses_t chesses_;
+//  chessboard chesses_;
 //  board_map board_;
 //};
 

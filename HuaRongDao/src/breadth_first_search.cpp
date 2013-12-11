@@ -14,7 +14,7 @@ int main () {
   deque<chessboard> queue;
 
   // input init 
-  chesses_t init_chesses;
+  chessboard init_chesses;
 
   chess gy (chess_type::guan_yu, point (2, 1));
   init_chesses.push_chess (gy);
@@ -46,7 +46,7 @@ int main () {
   // BFS to results
   bool is_solved = false;
   while (!queue.empty ()) {
-    const chesses_t curr = queue.front ();
+    const chessboard curr = queue.front ();
     queue.pop_front ();
 
     if (curr.is_solved ()) {

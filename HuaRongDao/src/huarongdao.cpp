@@ -6,7 +6,7 @@
 
 using namespace std;
 
-board_mask::board_mask (chesses_t &chesses) {
+board_mask::board_mask (chessboard &chesses) {
   auto css = chesses.chesses;
   ostringstream oss;
   for (auto c : css)
