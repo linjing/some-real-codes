@@ -252,4 +252,5 @@ struct chess_id get_chess (chess_type type) {
       id.type = type;
       break;
   }
+  return id;
 }
