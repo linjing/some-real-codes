@@ -14,6 +14,7 @@ board_mask::board_mask (chessboard &chesses) {
   mask = oss.str ();
 }
 
+
 bool operator == (const board_mask &l, const board_mask &r) {
   return l.get_mask () == r.get_mask ();
 }

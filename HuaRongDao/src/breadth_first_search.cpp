@@ -8,7 +8,9 @@
 using namespace std;
 
 int main () {
-  set<board_mask> seen; // add known
+  //board_mask_less board_mask_cmp;
+  //set<board_mask, board_mask_cmp> seen; // add known
+  set<string> seen;
   //unordered_set<board_mask> seen; // add known
   // error: static assertion failed: std::hash is not specialized for this type 
   deque<chessboard> queue;
@@ -41,7 +43,7 @@ int main () {
 
   queue.push_back (init_chesses);
   board_mask bm (init_chesses);
-  seen.insert (bm);
+  seen.insert (bm.get_mask ());
 
   // BFS to results
   bool is_solved = false;
@@ -62,9 +64,10 @@ int main () {
       cout <<  " move result" << endl;
       res.show ();
       board_mask bm (res);
-      if (seen.find (bm) != seen.end ())
+      if (seen.find (bm.get_mask ()) != seen.end ())
         continue;
-      seen.insert (bm);
+      cout << "mask: " << bm.get_mask () << endl;
+      seen.insert (bm.get_mask ());
       queue.push_back (res);
     }
   }

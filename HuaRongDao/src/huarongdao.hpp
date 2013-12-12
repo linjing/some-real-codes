@@ -83,6 +83,12 @@ struct board_mask {
   std::string get_mask () const { return mask; }
 };
 
+struct board_mask_less {
+  bool operator () (const board_mask &l, const board_mask &r) {
+    return l.get_mask () < r.get_mask ();
+  }
+};
+
 bool operator == (const board_mask &l, const board_mask &r);
 bool operator < (const board_mask &l, const board_mask &r);
 
