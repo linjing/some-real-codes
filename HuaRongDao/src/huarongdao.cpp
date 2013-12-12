@@ -48,10 +48,90 @@ bool chessboard::is_solved () const {
     return true;
   return false;
 }
+/*
+         DOWN/Bottom
+LEFT               Right
+         UP/Top
+<--   width ------------>
+^
+|
+height
+|
+V
+   col: 0, 1, 2, 3
+row 0:
+row 1:
+row 2:
+row 3:
+row 4:
+*/
+
+inline int right (const chess &c) {
+  return c.pos_.col + c.id_.width - 1;
+}
+inline int left (const chess &c) {
+  return c.pos_.col;
+}
+inline int bottom (const chess &c) {
+  return c.pos_.row;
+}
+
+inline int top (const chess &c) {
+  return c.pos_.row + c.id_.height - 1;
+}
+
+bool can_to_right (const chess &c, const board_map &board) {
+  int dest_col = right(c) + 1;
+  if (dest_col >= max_col)
+    return false;
+  for (int r = bottom (c); r <= top(c); ++r) {
+    if (board[r][dest_col] != 0)
+      return false;
+  }
+  return true;
+}
+
+bool can_to_left (const chess &c, const board_map &board) {
+  int dest_col = left(c) - 1;
+  if (dest_col < 0)
+    return false;
+  for (int r = bottom (c); r <= top(c); ++r) {
+    if (board[r][dest_col] != 0)
+      return false;
+  }
+  return true;
+}
+
+bool can_to_up (const chess &c, const board_map &board) {
+  int dest_row = top (c) + 1;
+  if (dest_row >= max_row)
+    return false;
+  for (int col = left (c);  col <= right (c); ++col) {
+    if (board[dest_row][col] != 0)
+      return false;
+  }
+  return true;
+}
+
+bool can_to_down (const chess &c, const board_map &board) {
+  int dest_row = bottom (c) - 1;
+  if (dest_row < 0)
+    return false;
+  for (int col = left (c);  col <= right (c); ++col) {
+    if (board[dest_row][col] != 0)
+      return false;
+  }
+  return true;
+}
+
 
 std::deque<chessboard> chessboard::can_move_steps () const {
   std::deque<chessboard> res;
   for (auto it = chesses.begin (); it != chesses.end (); ++it) {
+    if (can_to_right (*it, board_)) {
+      chessboard board (*this);
+      to_right (*it, board.board_, board.chesses);
+    }
     
   }
   return res;
