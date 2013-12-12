@@ -176,7 +176,7 @@ void move_left (const chess &c, board_map &board, deque<chess> &chesses) {
 }
 
 void move_right (const chess &c, board_map &board, deque<chess> &chesses) {
-  assert (can_to_left (c, board));
+  assert (can_to_right (c, board));
   int dest_col = right (c) + 1;
   int from_col = left (c);
 
