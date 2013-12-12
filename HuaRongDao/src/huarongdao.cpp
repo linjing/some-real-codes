@@ -215,7 +215,6 @@ std::deque<chessboard> chessboard::can_move_steps () const {
       move_left (*it, board.board_, board.chesses);
       res.push_back (board);
     }
-    
   }
   return res;
 }
@@ -228,29 +227,37 @@ struct chess_id get_chess (chess_type type) {
       id.type = type;
       break;
     case chess_type::guan_yu:
-      id.width = 2; id.height = 1; id.key = 10; id.info = "guan_yu";
+      id.width = 2; id.height = 1; id.key = 11; id.info = "guan_yu";
       id.type = type;
       break;
     case chess_type::zhang_fei:
-      id.width = 1; id.height = 2; id.key = 10; id.info = "zhang_fei";
+      id.width = 1; id.height = 2; id.key = 12; id.info = "zhang_fei";
       id.type = type;
       break;
     case chess_type::zhao_yun:
-      id.width = 1; id.height = 2; id.key = 10; id.info = "zhao_yun";
+      id.width = 1; id.height = 2; id.key = 13; id.info = "zhao_yun";
       id.type = type;
       break;
     case chess_type::ma_chao:
-      id.width = 1; id.height = 2; id.key = 10; id.info = "ma_chao";
+      id.width = 1; id.height = 2; id.key = 14; id.info = "ma_chao";
       id.type = type;
       break;
     case chess_type::huang_zhong:
-      id.width = 1; id.height = 2; id.key = 10; id.info = "huang_zhong";
+      id.width = 1; id.height = 2; id.key = 15; id.info = "huang_zhong";
       id.type = type;
       break;
     case chess_type::zu:
-      id.width = 1; id.height = 1; id.key = 10; id.info = "zu";
+      id.width = 1; id.height = 1; id.key = 21; id.info = "zu";
       id.type = type;
       break;
   }
   return id;
+}
+
+void chessboard::show () const {
+  for (int r = 0; r < max_row; ++r) {
+    for (int c = 0; c < max_col; ++c)
+      printf (" %02d ", board_.board_[r][c]);
+    cout << endl;
+  }
 }

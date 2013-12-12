@@ -73,6 +73,7 @@ public:
   struct board_map board_;
   void push_chess (chess &c);
   bool is_solved () const;
+  void show () const;
   std::deque<chessboard> can_move_steps () const;
 };
 

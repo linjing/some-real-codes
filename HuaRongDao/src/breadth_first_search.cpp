@@ -48,16 +48,21 @@ int main () {
   while (!queue.empty ()) {
     const chessboard curr = queue.front ();
     queue.pop_front ();
+    cout <<  " curr "  << endl;
+    curr.show ();
 
     if (curr.is_solved ()) {
       is_solved = true;
       break; // donw here 
     }
 
-    auto move_move_res = curr.can_move_steps ();
-    for (auto res : move_move_res) {
+    auto move_res = curr.can_move_steps ();
+    cout << move_res.size () << endl;
+    for (auto res : move_res) {
+      cout <<  " move result" << endl;
+      res.show ();
       board_mask bm (res);
-      if (seen.find (bm) == seen.end ())
+      if (seen.find (bm) != seen.end ())
         continue;
       seen.insert (bm);
       queue.push_back (res);
