@@ -57,14 +57,14 @@ public:
 //  void to_left (chessboard &board) = 0;
 //  void to_up (chessboard &board) = 0;
 //  void to_down (chessboard &board) = 0;
-protected:
+public:
   point pos_;
   chess_id id_;
 };
 
-enum direction {
-  up, down, right, left
-};
+//enum direction {
+//  up, down, right, left
+//};
 
 
 class chessboard {
