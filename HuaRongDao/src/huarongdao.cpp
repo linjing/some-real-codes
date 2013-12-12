@@ -85,7 +85,7 @@ bool can_to_right (const chess &c, const board_map &board) {
   if (dest_col >= max_col)
     return false;
   for (int r = bottom (c); r <= top(c); ++r) {
-    if (board[r][dest_col] != 0)
+    if (board.board_[r][dest_col] != 0)
       return false;
   }
   return true;
@@ -96,7 +96,7 @@ bool can_to_left (const chess &c, const board_map &board) {
   if (dest_col < 0)
     return false;
   for (int r = bottom (c); r <= top(c); ++r) {
-    if (board[r][dest_col] != 0)
+    if (board.board_[r][dest_col] != 0)
       return false;
   }
   return true;
@@ -107,7 +107,7 @@ bool can_to_up (const chess &c, const board_map &board) {
   if (dest_row >= max_row)
     return false;
   for (int col = left (c);  col <= right (c); ++col) {
-    if (board[dest_row][col] != 0)
+    if (board.board_[dest_row][col] != 0)
       return false;
   }
   return true;
@@ -118,19 +118,102 @@ bool can_to_down (const chess &c, const board_map &board) {
   if (dest_row < 0)
     return false;
   for (int col = left (c);  col <= right (c); ++col) {
-    if (board[dest_row][col] != 0)
+    if (board.board_[dest_row][col] != 0)
       return false;
   }
   return true;
 }
 
+void move_down (const chess &c, board_map &board, deque<chess> &chesses) {
+  assert (can_to_down (c, board));
+  int dest_row = bottom (c) - 1;
+  int from_row = top (c);
+
+  for (auto it = chesses.begin (); it != chesses.end (); ++it) {
+    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
+      it->pos_.row -= 1;
+    }
+  }
+
+  for (int col = left (c);  col <= right (c); ++col) {
+    board.board_[dest_row][col] = c.id_.key;
+    board.board_[from_row][col] = 0;
+  }
+}
+
+void move_up (const chess &c, board_map &board, deque<chess> &chesses) {
+  assert (can_to_up (c, board));
+  int dest_row = top (c) + 1;
+  int from_row = bottom (c);
+
+  for (auto it = chesses.begin (); it != chesses.end (); ++it) {
+    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
+      it->pos_.row += 1;
+    }
+  }
+
+  for (int col = left (c);  col <= right (c); ++col) {
+    board.board_[dest_row][col] = c.id_.key;
+    board.board_[from_row][col] = 0;
+  }
+}
+
+void move_left (const chess &c, board_map &board, deque<chess> &chesses) {
+  assert (can_to_left (c, board));
+  int dest_col = left (c) - 1;
+  int from_col = right (c);
+
+  for (auto it = chesses.begin (); it != chesses.end (); ++it) {
+    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
+      it->pos_.col -= 1;
+    }
+  }
+
+  for (int row = bottom (c);  row <= top (c); ++row) {
+    board.board_[row][dest_col] = c.id_.key;
+    board.board_[row][from_col] = 0;
+  }
+}
+
+void move_right (const chess &c, board_map &board, deque<chess> &chesses) {
+  assert (can_to_left (c, board));
+  int dest_col = right (c) + 1;
+  int from_col = left (c);
+
+  for (auto it = chesses.begin (); it != chesses.end (); ++it) {
+    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
+      it->pos_.col += 1;
+    }
+  }
+
+  for (int row = bottom (c);  row <= top (c); ++row) {
+    board.board_[row][dest_col] = c.id_.key;
+    board.board_[row][from_col] = 0;
+  }
+}
 
 std::deque<chessboard> chessboard::can_move_steps () const {
   std::deque<chessboard> res;
   for (auto it = chesses.begin (); it != chesses.end (); ++it) {
+    if (can_to_down (*it, board_)) {
+      chessboard board (*this);
+      move_down (*it, board.board_, board.chesses);
+      res.push_back (board);
+    }
+    if (can_to_up (*it, board_)) {
+      chessboard board (*this);
+      move_up (*it, board.board_, board.chesses);
+      res.push_back (board);
+    }
     if (can_to_right (*it, board_)) {
       chessboard board (*this);
-      to_right (*it, board.board_, board.chesses);
+      move_right (*it, board.board_, board.chesses);
+      res.push_back (board);
+    }
+    if (can_to_left (*it, board_)) {
+      chessboard board (*this);
+      move_left (*it, board.board_, board.chesses);
+      res.push_back (board);
     }
     
   }
