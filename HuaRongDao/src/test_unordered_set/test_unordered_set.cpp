@@ -26,9 +26,6 @@ namespace std {
   struct equal_to<mask> : public binary_function<mask, mask, bool> {
     bool operator () (const mask &l, const mask &r) const {
       return l.hash_value () == r.hash_value ();
-//      std::hash<mask> hasher;
-//      size_t lh = hasher (l); size_t rh = hasher (r);
-//      return lh == rh;
     }
   };
 }
