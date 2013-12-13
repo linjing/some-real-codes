@@ -1,16 +1,23 @@
 #include "huarongdao.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
 board_mask::board_mask (chessboard &chesses) {
   auto css = chesses.chesses;
-  ostringstream oss;
+  vector<string> masks;
   for (auto c : css)
-    oss << c.to_mask () << ";";
+    masks.push_back (c.to_mask ());
+  sort (masks.begin (), masks.end ());
+
+  ostringstream oss;
+  for (auto m : masks)
+    oss << m << ";";
   mask = oss.str ();
 }
 
