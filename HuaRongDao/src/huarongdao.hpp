@@ -77,6 +77,8 @@ public:
   bool is_solved () const;
   void show () const;
   std::deque<chessboard> can_move_steps () const;
+
+  int steps;
 };
 
 struct board_mask {

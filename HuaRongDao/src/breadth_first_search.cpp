@@ -53,6 +53,7 @@ int main () {
 
     if (curr.is_solved ()) {
       is_solved = true;
+      cout << "steps " << curr.steps << endl;
       break; // donw here 
     }
 

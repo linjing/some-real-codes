@@ -55,6 +55,7 @@ void chess::fill_board (board_map &board) const {
 void chessboard::push_chess (chess &c) {
   chesses.push_back (c);
   c.fill_board (board_);
+  steps = 0;
 }
 
 bool chessboard::is_solved () const {
@@ -213,21 +214,25 @@ std::deque<chessboard> chessboard::can_move_steps () const {
     if (can_to_down (*it, board_)) {
       chessboard board (*this);
       move_down (*it, board.board_, board.chesses);
+      board.steps ++;
       res.push_back (board);
     }
     if (can_to_up (*it, board_)) {
       chessboard board (*this);
       move_up (*it, board.board_, board.chesses);
+      board.steps ++;
       res.push_back (board);
     }
     if (can_to_right (*it, board_)) {
       chessboard board (*this);
       move_right (*it, board.board_, board.chesses);
+      board.steps ++;
       res.push_back (board);
     }
     if (can_to_left (*it, board_)) {
       chessboard board (*this);
       move_left (*it, board.board_, board.chesses);
+      board.steps ++;
       res.push_back (board);
     }
   }
