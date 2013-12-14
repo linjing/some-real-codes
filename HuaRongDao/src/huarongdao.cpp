@@ -6,6 +6,8 @@
 #include <sstream>
 #include <vector>
 
+#include <boost/functional/hash/hash.hpp>
+
 using namespace std;
 
 board_mask::board_mask (chessboard &chesses) {
@@ -21,6 +23,9 @@ board_mask::board_mask (chessboard &chesses) {
   mask = oss.str ();
 }
 
+size_t board_mask::get_hash () const {
+  return boost::hash_range (mask.begin (), mask.end ());
+}
 
 bool operator == (const board_mask &l, const board_mask &r) {
   return l.get_mask () == r.get_mask ();

@@ -81,7 +81,17 @@ struct board_mask {
   std::string mask;
   board_mask (chessboard &chesses);
   std::string get_mask () const { return mask; }
+  size_t get_hash () const;
 };
+
+namespace std {
+  template <>
+  struct hash<board_mask> {
+    size_t operator () (const board_mask&m) const {
+      return m.get_hash ();
+    }
+  };
+}
 
 struct board_mask_less {
   bool operator () (const board_mask &l, const board_mask &r) {

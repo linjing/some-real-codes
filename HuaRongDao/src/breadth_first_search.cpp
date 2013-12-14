@@ -8,11 +8,7 @@
 using namespace std;
 
 int main () {
-  //board_mask_less board_mask_cmp;
-  //set<board_mask, board_mask_cmp> seen; // add known
-  set<string> seen;
-  //unordered_set<board_mask> seen; // add known
-  // error: static assertion failed: std::hash is not specialized for this type 
+  unordered_set<board_mask> seen; // add known board
   deque<chessboard> queue;
 
   // input init 
@@ -43,15 +39,17 @@ int main () {
 
   queue.push_back (init_chesses);
   board_mask bm (init_chesses);
-  seen.insert (bm.get_mask ());
+  seen.insert (bm);
 
   // BFS to results
   bool is_solved = false;
   while (!queue.empty ()) {
     const chessboard curr = queue.front ();
     queue.pop_front ();
+#ifdef DEBUG
     cout <<  " curr "  << endl;
     curr.show ();
+#endif
 
     if (curr.is_solved ()) {
       is_solved = true;
@@ -59,15 +57,21 @@ int main () {
     }
 
     auto move_res = curr.can_move_steps ();
+#ifdef DEBUG
     cout << move_res.size () << endl;
+#endif
     for (auto res : move_res) {
+#ifdef DEBUG
       cout <<  " move result" << endl;
       res.show ();
+#endif
       board_mask bm (res);
-      if (seen.find (bm.get_mask ()) != seen.end ())
+      if (seen.find (bm) != seen.end ())
         continue;
+#ifdef DEBUG
       cout << "mask: " << bm.get_mask () << endl;
-      seen.insert (bm.get_mask ());
+#endif
+      seen.insert (bm);
       queue.push_back (res);
     }
   }
