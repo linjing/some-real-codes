@@ -139,7 +139,7 @@ bool can_to_down (const chess &c, const board_map &board) {
   return true;
 }
 
-void move_down (const chess &c, board_map &board, deque<chess> &chesses) {
+void move_down (const chess &c, board_map &board, vector<chess> &chesses) {
   assert (can_to_down (c, board));
   int dest_row = bottom (c) - 1;
   int from_row = top (c);
@@ -156,7 +156,7 @@ void move_down (const chess &c, board_map &board, deque<chess> &chesses) {
   }
 }
 
-void move_up (const chess &c, board_map &board, deque<chess> &chesses) {
+void move_up (const chess &c, board_map &board, vector<chess> &chesses) {
   assert (can_to_up (c, board));
   int dest_row = top (c) + 1;
   int from_row = bottom (c);
@@ -173,7 +173,7 @@ void move_up (const chess &c, board_map &board, deque<chess> &chesses) {
   }
 }
 
-void move_left (const chess &c, board_map &board, deque<chess> &chesses) {
+void move_left (const chess &c, board_map &board, vector<chess> &chesses) {
   assert (can_to_left (c, board));
   int dest_col = left (c) - 1;
   int from_col = right (c);
@@ -190,7 +190,7 @@ void move_left (const chess &c, board_map &board, deque<chess> &chesses) {
   }
 }
 
-void move_right (const chess &c, board_map &board, deque<chess> &chesses) {
+void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   assert (can_to_right (c, board));
   int dest_col = right (c) + 1;
   int from_col = left (c);

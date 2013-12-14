@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 const int max_row = 5;
 const int max_col = 4;
@@ -70,7 +71,7 @@ public:
 
 class chessboard {
 public:
-  std::deque<chess> chesses;
+  std::vector<chess> chesses;
   struct board_map board_;
   void push_chess (chess &c);
   bool is_solved () const;
