@@ -9,7 +9,6 @@ using namespace std;
 struct mask {
   string str;
   size_t hash_value () const {
-    //return std::hash_range (str.begin (), str.end ());
     return boost::hash_range (str.begin (), str.end ());
   }
 };
@@ -18,7 +17,7 @@ namespace std {
   template <>
   struct hash<mask> {
     size_t operator () (const mask &m) const {
-      return m.str.size ();
+      return m.hash_value ();
     }
   };
 
