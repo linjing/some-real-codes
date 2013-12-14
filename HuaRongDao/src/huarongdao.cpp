@@ -10,29 +10,31 @@
 
 using namespace std;
 
-board_mask::board_mask (chessboard &chesses) {
-  auto css = chesses.chesses;
-  vector<string> masks;
-  for (auto c : css)
-    masks.push_back (c.to_mask ());
-  sort (masks.begin (), masks.end ());
-
-  ostringstream oss;
-  for (auto m : masks)
-    oss << m << ";";
-  mask = oss.str ();
-}
+board_mask::board_mask (chessboard &chesses)
+  : board (chesses.board_) 
+{}
 
 size_t board_mask::get_hash () const {
-  return boost::hash_range (mask.begin (), mask.end ());
+  const int *p = &board.board_[0][0];
+  return boost::hash_range (p, p+max_row*max_col);
 }
 
 bool operator == (const board_mask &l, const board_mask &r) {
-  return l.get_mask () == r.get_mask ();
+  return memcmp ((char*)&l.board.board_[0][0], &r.board.board_[0][0], max_row*max_col*sizeof (int)) == 0;
 }
 
 bool operator < (const board_mask &l, const board_mask &r) {
-  return l.get_mask () < r.get_mask ();
+  return memcmp ((char*)&l.board.board_[0][0], &r.board.board_[0][0], max_row*max_col*sizeof (int)) < 0;
+}
+
+std::string board_mask::get_mask () const {
+  ostringstream oss;
+  for (int r = 0; r < max_row; ++r) {
+    for (int c = 0; c < max_col; ++c)
+      oss << board.board_[r][c] << ",";
+    oss << ",";
+  }
+  return oss.str ();
 }
 
 string chess::to_mask () const {
@@ -230,6 +232,28 @@ std::deque<chessboard> chessboard::can_move_steps () const {
     }
   }
   return res;
+}
+
+struct chess_sample_id get_sample_chess (chess_type type) {
+  chess_sample_id id;
+  switch (type) {
+    case chess_type::cao_cao:
+      id.width = 2; id.height = 2; id.key = 1;
+      break;
+    case chess_type::guan_yu:
+      id.width = 2; id.height = 1; id.key = 10;
+      break;
+    case chess_type::zhang_fei:
+    case chess_type::zhao_yun:
+    case chess_type::ma_chao:
+    case chess_type::huang_zhong:
+      id.width = 1; id.height = 2; id.key = 11;
+      break;
+    case chess_type::zu:
+      id.width = 1; id.height = 1; id.key = 21;
+      break;
+  }
+  return id;
 }
 
 struct chess_id get_chess (chess_type type) {

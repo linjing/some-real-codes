@@ -1,6 +1,7 @@
 #ifndef HUARONGDAO_HPP 
 #define HUARONGDAO_HPP
 
+#include <cstring>
 #include <deque>
 #include <list>
 #include <memory>
@@ -23,14 +24,18 @@ struct point {
 struct board_map {
   int board_[max_row][max_col];
   board_map () {
-    for (int r = 0; r < max_row; ++r)
-      for (int c = 0; c < max_col; ++c)
-        board_[r][c] = 0;
+    memset (&board_, 0, max_col * max_row * sizeof (int) );
   }
 };
 
 enum chess_type {
   cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
+};
+
+struct chess_sample_id {
+  int width;
+  int height;
+  int key;
 };
 
 struct chess_id {
@@ -42,24 +47,20 @@ struct chess_id {
 };
 
 struct chess_id get_chess (chess_type type);
+struct chess_sample_id get_sample_chess (chess_type type);
 
 class chess {
 public:
   chess (chess_type type, point p)
     : pos_ (p)
-    { id_ = get_chess (type); }
+    { id_ = get_sample_chess (type); }
 public:
   std::string to_mask () const;
   virtual int key () const { return id_.key; }
   void fill_board (board_map &board) const;
-//  void to_right (board_map &input, 
-//                 board_map &output);
-//  void to_left (chessboard &board) = 0;
-//  void to_up (chessboard &board) = 0;
-//  void to_down (chessboard &board) = 0;
 public:
   point pos_;
-  chess_id id_;
+  chess_sample_id id_;
 };
 
 //enum direction {
@@ -78,9 +79,9 @@ public:
 };
 
 struct board_mask {
-  std::string mask;
+  struct board_map board;
   board_mask (chessboard &chesses);
-  std::string get_mask () const { return mask; }
+  std::string get_mask () const;
   size_t get_hash () const;
 };
 
@@ -110,55 +111,6 @@ bool operator < (const board_mask &l, const board_mask &r);
 //private:
 //  chessboard chesses_;
 //  board_map board_;
-//};
-
-//class cao_cao : public chess {
-//public:
-//  cao_cao (point &p)
-//    { pos_ = p; width_ = 2; height_ = 2; }
-//  int key () const { return 1;}
-//};
-//
-//class guan_yu : public chess {
-//public:
-//  guan_yu (const point &p)
-//    { pos_ = p; width_ = 2; height_ = 1; }
-//  int key () const { return 10;}
-//};
-//
-//class zhang_fei : public chess {
-//public:
-//  zhang_fei (const point &p)
-//    { pos_ = p; width_ = 1; height_ = 2; }
-//  int key () const { return 11;}
-//};
-//
-//class zhao_yun : public chess {
-//public:
-//  zhao_yun (const point &p)
-//    { pos_ = p; width_ = 1; height_ = 2; }
-//  int key () const { return 12;}
-//};
-//
-//class ma_chao : public chess {
-//public:
-//  ma_chao (const point &p)
-//    { pos_ = p; width_ = 1; height_ = 2; }
-//  int key () const { return 13;}
-//};
-//
-//class huang_zhong : public chess {
-//public:
-//  huang_zhong (const point &p)
-//    { pos_ = p; width_ = 1; height_ = 2; }
-//  int key () const { return 14;}
-//};
-//
-//class zu : public chess {
-//public:
-//  zu (const point &p)
-//    { pos_ = p; width_ = 1; height_ = 1; }
-//  int key () const { return 20;}
 //};
 
 #endif
