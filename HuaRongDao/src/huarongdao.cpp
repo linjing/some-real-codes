@@ -10,7 +10,7 @@
 
 using namespace std;
 
-board_mask::board_mask (chessboard &chesses)
+board_mask::board_mask (const chessboard &chesses)
   : board (chesses.board_) 
 {}
 

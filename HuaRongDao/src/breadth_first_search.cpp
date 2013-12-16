@@ -1,4 +1,5 @@
 #include "huarongdao.hpp"
+#include "huarongdao_impl.hpp"
 
 #include <deque>
 #include <iostream>
@@ -54,9 +55,20 @@ int main () {
     if (curr.is_solved ()) {
       is_solved = true;
       cout << "steps " << curr.steps << endl;
-      break; // donw here 
+      break; // down here
     }
-
+#ifdef USE_LAMBDA
+    curr.move ([&seen, &queue] (const chessboard &next) {
+        board_mask bm (next);
+        if (seen.find (bm) == seen.end ()) {
+#ifdef DEBUG
+          cout << "mask: " << bm.get_mask () << endl;
+#endif
+          queue.push_back (next);
+          seen.insert (bm);
+          }
+        });
+#else
     auto move_res = curr.can_move_steps ();
 #ifdef DEBUG
     cout << move_res.size () << endl;
@@ -75,6 +87,7 @@ int main () {
       seen.insert (bm);
       queue.push_back (res);
     }
+#endif
   }
 
   cout << " " <<  is_solved << endl;

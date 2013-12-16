@@ -73,17 +73,19 @@ class chessboard {
 public:
   std::vector<chess> chesses;
   struct board_map board_;
+  int steps;
+public:
   void push_chess (chess &c);
   bool is_solved () const;
   void show () const;
   std::deque<chessboard> can_move_steps () const;
-
-  int steps;
+  template <typename append_next_step>
+  void move (const append_next_step &func) const;
 };
 
 struct board_mask {
   struct board_map board;
-  board_mask (chessboard &chesses);
+  board_mask (const chessboard &chesses);
   std::string get_mask () const;
   size_t get_hash () const;
 };
