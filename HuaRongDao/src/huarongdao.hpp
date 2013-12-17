@@ -28,13 +28,6 @@ struct point {
   uint8_t pos; // rrrrcccc
 };
 
-//struct point {
-//  point () : row (0), col (0) {}
-//  point (int r, int c) : row (r), col (c) {}
-//  int row;
-//  int col;
-//};
-
 struct board_map {
   uint8_t board_[board_size];
   board_map () {
@@ -121,15 +114,5 @@ struct board_mask_less {
 bool operator == (const board_mask &l, const board_mask &r);
 bool operator < (const board_mask &l, const board_mask &r);
 bool operator == (const point &l, const point &r);
-
-//class chessboard {
-//public:
-//  void init_chess (chess &c, point &p) {};
-//public:
-//  virtual void move (chess &c, const direction &d) = 0;
-//private:
-//  chessboard chesses_;
-//  board_map board_;
-//};
 
 #endif
