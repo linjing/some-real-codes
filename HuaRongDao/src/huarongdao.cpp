@@ -243,28 +243,6 @@ std::deque<chessboard> chessboard::can_move_steps () const {
   return res;
 }
 
-struct chess_sample_id get_sample_chess (chess_type type) {
-  chess_sample_id id;
-  switch (type) {
-    case chess_type::cao_cao:
-      id.width = 2; id.height = 2; id.key = 1;
-      break;
-    case chess_type::guan_yu:
-      id.width = 2; id.height = 1; id.key = 10;
-      break;
-    case chess_type::zhang_fei:
-    case chess_type::zhao_yun:
-    case chess_type::ma_chao:
-    case chess_type::huang_zhong:
-      id.width = 1; id.height = 2; id.key = 11;
-      break;
-    case chess_type::zu:
-      id.width = 1; id.height = 1; id.key = 21;
-      break;
-  }
-  return id;
-}
-
 struct chess_id get_chess (chess_type type) {
   chess_id id;
   switch (type) {

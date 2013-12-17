@@ -40,22 +40,18 @@ enum chess_type {
   cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
 };
 
-struct chess_sample_id {
-  int width;
-  int height;
-  int key;
-};
-
 struct chess_id {
   uint8_t chess; // kkkkwwhh
 #ifdef DEBUG
   chess_type type;
   std::string info;
 #endif
-  chess_id () : chess (0) { std::cout << "c1:" << (int) chess << std::endl; }
+  chess_id () : chess (0) {
+    //std::cout << "c1:" << (int) chess << std::endl;
+    }
   chess_id (uint8_t width, uint8_t height, uint8_t key) {
     chess = (key << 4) + (width << 2) + height;
-    std::cout << "c2:" << (int) chess << std::endl;
+    // std::cout << "c2:" << (int) chess << std::endl;
   }
   inline uint8_t key () const { return chess >> 4; }
   inline uint8_t width () const { return (chess >> 2) & 3; }
@@ -63,7 +59,6 @@ struct chess_id {
 };
 
 struct chess_id get_chess (chess_type type);
-struct chess_sample_id get_sample_chess (chess_type type);
 
 class chess {
 public:
