@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <deque>
+#include <iostream>
 #include <list>
 #include <memory>
 #include <string>
@@ -46,11 +47,19 @@ struct chess_sample_id {
 };
 
 struct chess_id {
+  uint8_t chess; // kkkkwwhh
+#ifdef DEBUG
   chess_type type;
-  int width;
-  int height;
-  int key;
   std::string info;
+#endif
+  chess_id () : chess (0) { std::cout << "c1:" << (int) chess << std::endl; }
+  chess_id (uint8_t width, uint8_t height, uint8_t key) {
+    chess = (key << 4) + (width << 2) + height;
+    std::cout << "c2:" << (int) chess << std::endl;
+  }
+  inline uint8_t key () const { return chess >> 4; }
+  inline uint8_t width () const { return (chess >> 2) & 3; }
+  inline uint8_t height () const { return chess & 3; }
 };
 
 struct chess_id get_chess (chess_type type);
@@ -60,14 +69,14 @@ class chess {
 public:
   chess (chess_type type, point p)
     : pos_ (p)
-    { id_ = get_sample_chess (type); }
+    { id_ = get_chess (type); }
 public:
   std::string to_mask () const;
-  virtual int key () const { return id_.key; }
+  int key () const { return id_.key (); }
   void fill_board (board_map &board) const;
 public:
   point pos_;
-  chess_sample_id id_;
+  chess_id id_;
 };
 
 //enum direction {

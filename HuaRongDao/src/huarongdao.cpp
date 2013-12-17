@@ -44,14 +44,13 @@ std::string board_mask::get_mask () const {
 
 string chess::to_mask () const {
   ostringstream oss;
-  oss << id_.width << id_.height << (int) pos_.row () << (int) pos_.col ();
+  oss << (int) id_.chess << (int) pos_.pos;
   return oss.str ();
 }
 
-
 void chess::fill_board (board_map &board) const {
-  for (int r = 0; r < id_.height; ++r)
-    for (int c = 0; c < id_.width; ++c) {
+  for (int r = 0; r < id_.height (); ++r)
+    for (int c = 0; c < id_.width (); ++c) {
       // cout << "board.board_[" << pos_.row + r << "][" << pos_.col + c << "]" << endl;
       assert (board.board_[to_pos (pos_.row () + r, pos_.col () + c)] == 0);
       board.board_[to_pos (pos_.row () + r, pos_.col () + c)] = this->key ();
@@ -92,7 +91,7 @@ row 4:
 */
 
 inline int right (const chess &c) {
-  return c.pos_.col () + c.id_.width - 1;
+  return c.pos_.col () + c.id_.width () - 1;
 }
 inline int left (const chess &c) {
   return c.pos_.col ();
@@ -102,7 +101,7 @@ inline int bottom (const chess &c) {
 }
 
 inline int top (const chess &c) {
-  return c.pos_.row () + c.id_.height - 1;
+  return c.pos_.row () + c.id_.height () - 1;
 }
 
 bool can_to_right (const chess &c, const board_map &board) {
@@ -160,7 +159,7 @@ void move_down (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
-    board.board_[to_pos (dest_row, col)] = c.id_.key;
+    board.board_[to_pos (dest_row, col)] = c.id_.key ();
     board.board_[to_pos (from_row, col)] = 0;
   }
 }
@@ -176,7 +175,7 @@ void move_up (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
-    board.board_[to_pos (dest_row, col)] = c.id_.key;
+    board.board_[to_pos (dest_row, col)] = c.id_.key ();
     board.board_[to_pos (from_row, col)] = 0;
   }
 }
@@ -192,7 +191,7 @@ void move_left (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
-    board.board_[to_pos (row, dest_col)] = c.id_.key;
+    board.board_[to_pos (row, dest_col)] = c.id_.key ();
     board.board_[to_pos (row, from_col)] = 0;
   }
 }
@@ -208,7 +207,7 @@ void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
-    board.board_[to_pos (row, dest_col)] = c.id_.key;
+    board.board_[to_pos (row, dest_col)] = c.id_.key ();
     board.board_[to_pos (row, from_col)] = 0;
   }
 }
@@ -270,32 +269,53 @@ struct chess_id get_chess (chess_type type) {
   chess_id id;
   switch (type) {
     case chess_type::cao_cao:
-      id.width = 2; id.height = 2; id.key = 1; id.info = "cao_cao";
+      id = chess_id (2, 2, 1);
+#ifdef DEBUG
+      id.info = "cao_cao";
       id.type = type;
+#endif
       break;
     case chess_type::guan_yu:
-      id.width = 2; id.height = 1; id.key = 11; id.info = "guan_yu";
+      id = chess_id (2, 1, 11);
+#ifdef DEBUG
+      id.info = "guan_yu";
       id.type = type;
+#endif
       break;
     case chess_type::zhang_fei:
-      id.width = 1; id.height = 2; id.key = 12; id.info = "zhang_fei";
+      id = chess_id (1, 2, 12);
+#ifdef DEBUG
+      id.info = "zhang_fei";
       id.type = type;
+#endif
       break;
     case chess_type::zhao_yun:
-      id.width = 1; id.height = 2; id.key = 13; id.info = "zhao_yun";
+      id = chess_id (1, 2, 12);
+#ifdef DEBUG
+      id.info = "zhao_yun";
       id.type = type;
+#endif
       break;
     case chess_type::ma_chao:
-      id.width = 1; id.height = 2; id.key = 14; id.info = "ma_chao";
+      id = chess_id (1, 2, 12);
+#ifdef DEBUG
+      id.info = "ma_chao";
       id.type = type;
+#endif
       break;
     case chess_type::huang_zhong:
-      id.width = 1; id.height = 2; id.key = 15; id.info = "huang_zhong";
+      id = chess_id (1, 2, 12);
+#ifdef DEBUG
+      id.info = "huang_zhong";
       id.type = type;
+#endif
       break;
     case chess_type::zu:
-      id.width = 1; id.height = 1; id.key = 21; id.info = "zu";
+      id = chess_id (1, 1, 13);
+#ifdef DEBUG
+      id.info = "zu";
       id.type = type;
+#endif
       break;
   }
   return id;
