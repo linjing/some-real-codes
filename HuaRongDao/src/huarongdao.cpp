@@ -27,6 +27,10 @@ bool operator < (const board_mask &l, const board_mask &r) {
   return memcmp ((char*)&l.board.board_[0][0], &r.board.board_[0][0], max_row*max_col*sizeof (int)) < 0;
 }
 
+bool operator == (const point &l, const point &r) {
+  return l.pos == r.pos;
+}
+
 std::string board_mask::get_mask () const {
   ostringstream oss;
   for (int r = 0; r < max_row; ++r) {
@@ -39,7 +43,7 @@ std::string board_mask::get_mask () const {
 
 string chess::to_mask () const {
   ostringstream oss;
-  oss << id_.width << id_.height << pos_.row << pos_.col;
+  oss << id_.width << id_.height << (int) pos_.row () << (int) pos_.col ();
   return oss.str ();
 }
 
@@ -47,8 +51,8 @@ void chess::fill_board (board_map &board) const {
   for (int r = 0; r < id_.height; ++r)
     for (int c = 0; c < id_.width; ++c) {
       // cout << "board.board_[" << pos_.row + r << "][" << pos_.col + c << "]" << endl;
-      assert (board.board_[pos_.row + r][pos_.col + c] == 0);
-      board.board_[pos_.row + r][pos_.col + c] = this->key ();
+      assert (board.board_[pos_.row () + r][pos_.col () + c] == 0);
+      board.board_[pos_.row () + r][pos_.col () + c] = this->key ();
     }
 }
 
@@ -83,17 +87,17 @@ row 4:
 */
 
 inline int right (const chess &c) {
-  return c.pos_.col + c.id_.width - 1;
+  return c.pos_.col () + c.id_.width - 1;
 }
 inline int left (const chess &c) {
-  return c.pos_.col;
+  return c.pos_.col ();
 }
 inline int bottom (const chess &c) {
-  return c.pos_.row;
+  return c.pos_.row ();
 }
 
 inline int top (const chess &c) {
-  return c.pos_.row + c.id_.height - 1;
+  return c.pos_.row () + c.id_.height - 1;
 }
 
 bool can_to_right (const chess &c, const board_map &board) {
@@ -146,9 +150,8 @@ void move_down (const chess &c, board_map &board, vector<chess> &chesses) {
   int from_row = top (c);
 
   for (auto it = chesses.begin (); it != chesses.end (); ++it) {
-    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
-      it->pos_.row -= 1;
-    }
+    if (it->pos_ == c.pos_)
+      it->pos_.down ();
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
@@ -163,9 +166,8 @@ void move_up (const chess &c, board_map &board, vector<chess> &chesses) {
   int from_row = bottom (c);
 
   for (auto it = chesses.begin (); it != chesses.end (); ++it) {
-    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
-      it->pos_.row += 1;
-    }
+    if (it->pos_ == c.pos_)
+      it->pos_.up ();
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
@@ -180,9 +182,8 @@ void move_left (const chess &c, board_map &board, vector<chess> &chesses) {
   int from_col = right (c);
 
   for (auto it = chesses.begin (); it != chesses.end (); ++it) {
-    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
-      it->pos_.col -= 1;
-    }
+    if (it->pos_ == c.pos_)
+      it->pos_.left ();
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
@@ -197,9 +198,8 @@ void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   int from_col = left (c);
 
   for (auto it = chesses.begin (); it != chesses.end (); ++it) {
-    if (it->pos_.row == c.pos_.row && it->pos_.col == c.pos_.col) {
-      it->pos_.col += 1;
-    }
+    if (it->pos_ == c.pos_)
+      it->pos_.right ();
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {

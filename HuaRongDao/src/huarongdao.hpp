@@ -11,16 +11,29 @@
 const int max_row = 5;
 const int max_col = 4;
 const int chess_number = 10;
+const int board_size = max_row * max_col;
 
 class chessboard;
 class chess;
 
 struct point {
-  point () : row (0), col (0) {}
-  point (int r, int c) : row (r), col (c) {}
-  int row;
-  int col;
+  point () : pos (0) {}
+  point (uint8_t r, uint8_t c) { pos = (r << 4) + c; }
+  inline uint8_t row () const { return pos >> 4;}
+  inline uint8_t col () const { return pos & 15;}
+  inline void down () { pos -= 16;}
+  inline void up () {pos += 16;}
+  inline void left () {pos -= 1;}
+  inline void right () {pos += 1;}
+  uint8_t pos; // rrrrcccc
 };
+
+//struct point {
+//  point () : row (0), col (0) {}
+//  point (int r, int c) : row (r), col (c) {}
+//  int row;
+//  int col;
+//};
 
 struct board_map {
   int board_[max_row][max_col];
@@ -107,6 +120,7 @@ struct board_mask_less {
 
 bool operator == (const board_mask &l, const board_mask &r);
 bool operator < (const board_mask &l, const board_mask &r);
+bool operator == (const point &l, const point &r);
 
 //class chessboard {
 //public:
