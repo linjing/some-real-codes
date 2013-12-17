@@ -36,9 +36,9 @@ struct point {
 //};
 
 struct board_map {
-  int board_[max_row][max_col];
+  uint8_t board_[board_size];
   board_map () {
-    memset (&board_, 0, max_col * max_row * sizeof (int) );
+    memset (&board_, 0, board_size * sizeof (uint8_t));
   }
 };
 

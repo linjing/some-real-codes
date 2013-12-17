@@ -15,29 +15,30 @@ board_mask::board_mask (const chessboard &chesses)
 {}
 
 size_t board_mask::get_hash () const {
-  const int *p = &board.board_[0][0];
-  return boost::hash_range (p, p+max_row*max_col);
+  const uint8_t *p = &board.board_[0];
+  return boost::hash_range (p, p+board_size);
 }
 
 bool operator == (const board_mask &l, const board_mask &r) {
-  return memcmp ((char*)&l.board.board_[0][0], &r.board.board_[0][0], max_row*max_col*sizeof (int)) == 0;
+  return memcmp ((char*)&l.board.board_[0], &r.board.board_[0], board_size*sizeof (uint8_t)) == 0;
 }
 
 bool operator < (const board_mask &l, const board_mask &r) {
-  return memcmp ((char*)&l.board.board_[0][0], &r.board.board_[0][0], max_row*max_col*sizeof (int)) < 0;
+  return memcmp ((char*)&l.board.board_[0], &r.board.board_[0], board_size*sizeof (uint8_t)) < 0;
 }
 
 bool operator == (const point &l, const point &r) {
   return l.pos == r.pos;
 }
 
+inline uint8_t to_pos (uint8_t row, uint8_t col) {
+  return row * max_col + col;
+}
+
 std::string board_mask::get_mask () const {
   ostringstream oss;
-  for (int r = 0; r < max_row; ++r) {
-    for (int c = 0; c < max_col; ++c)
-      oss << board.board_[r][c] << ",";
-    oss << ",";
-  }
+  for (int i = 0; i < board_size; ++i)
+    oss << (int) board.board_[i] << ",";
   return oss.str ();
 }
 
@@ -47,12 +48,13 @@ string chess::to_mask () const {
   return oss.str ();
 }
 
+
 void chess::fill_board (board_map &board) const {
   for (int r = 0; r < id_.height; ++r)
     for (int c = 0; c < id_.width; ++c) {
       // cout << "board.board_[" << pos_.row + r << "][" << pos_.col + c << "]" << endl;
-      assert (board.board_[pos_.row () + r][pos_.col () + c] == 0);
-      board.board_[pos_.row () + r][pos_.col () + c] = this->key ();
+      assert (board.board_[to_pos (pos_.row () + r, pos_.col () + c)] == 0);
+      board.board_[to_pos (pos_.row () + r, pos_.col () + c)] = this->key ();
     }
 }
 
@@ -63,8 +65,11 @@ void chessboard::push_chess (chess &c) {
 }
 
 bool chessboard::is_solved () const {
-  static int caocao_key = 1;
-  if (board_.board_[4][1] == caocao_key && board_.board_[4][2] == caocao_key)
+  static const uint8_t caocao_key = 1;
+  static const int p1 = 4 * max_col + 1;
+  static const int p2 = 4 * max_col + 2;
+  //if (board_.board_[4][1] == caocao_key && board_.board_[4][2] == caocao_key)
+  if (board_.board_[p1] == caocao_key && board_.board_[p2] == caocao_key)
     return true;
   return false;
 }
@@ -105,7 +110,7 @@ bool can_to_right (const chess &c, const board_map &board) {
   if (dest_col >= max_col)
     return false;
   for (int r = bottom (c); r <= top(c); ++r) {
-    if (board.board_[r][dest_col] != 0)
+    if (board.board_[to_pos (r, dest_col)] != 0)
       return false;
   }
   return true;
@@ -116,7 +121,7 @@ bool can_to_left (const chess &c, const board_map &board) {
   if (dest_col < 0)
     return false;
   for (int r = bottom (c); r <= top(c); ++r) {
-    if (board.board_[r][dest_col] != 0)
+    if (board.board_[to_pos (r, dest_col)] != 0)
       return false;
   }
   return true;
@@ -127,7 +132,7 @@ bool can_to_up (const chess &c, const board_map &board) {
   if (dest_row >= max_row)
     return false;
   for (int col = left (c);  col <= right (c); ++col) {
-    if (board.board_[dest_row][col] != 0)
+    if (board.board_[to_pos (dest_row, col)] != 0)
       return false;
   }
   return true;
@@ -138,7 +143,7 @@ bool can_to_down (const chess &c, const board_map &board) {
   if (dest_row < 0)
     return false;
   for (int col = left (c);  col <= right (c); ++col) {
-    if (board.board_[dest_row][col] != 0)
+    if (board.board_[to_pos (dest_row, col)] != 0)
       return false;
   }
   return true;
@@ -155,8 +160,8 @@ void move_down (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
-    board.board_[dest_row][col] = c.id_.key;
-    board.board_[from_row][col] = 0;
+    board.board_[to_pos (dest_row, col)] = c.id_.key;
+    board.board_[to_pos (from_row, col)] = 0;
   }
 }
 
@@ -171,8 +176,8 @@ void move_up (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
-    board.board_[dest_row][col] = c.id_.key;
-    board.board_[from_row][col] = 0;
+    board.board_[to_pos (dest_row, col)] = c.id_.key;
+    board.board_[to_pos (from_row, col)] = 0;
   }
 }
 
@@ -187,8 +192,8 @@ void move_left (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
-    board.board_[row][dest_col] = c.id_.key;
-    board.board_[row][from_col] = 0;
+    board.board_[to_pos (row, dest_col)] = c.id_.key;
+    board.board_[to_pos (row, from_col)] = 0;
   }
 }
 
@@ -203,8 +208,8 @@ void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
-    board.board_[row][dest_col] = c.id_.key;
-    board.board_[row][from_col] = 0;
+    board.board_[to_pos (row, dest_col)] = c.id_.key;
+    board.board_[to_pos (row, from_col)] = 0;
   }
 }
 
@@ -299,7 +304,7 @@ struct chess_id get_chess (chess_type type) {
 void chessboard::show () const {
   for (int r = 0; r < max_row; ++r) {
     for (int c = 0; c < max_col; ++c)
-      printf (" %02d ", board_.board_[r][c]);
+      printf (" %02d ", (int) board_.board_[to_pos (r,c)]);
     cout << endl;
   }
 }
