@@ -30,10 +30,8 @@ struct point {
 };
 
 struct board_map {
-  uint8_t board_[board_size];
-  board_map () {
-    memset (&board_, 0, board_size * sizeof (uint8_t));
-  }
+  uint8_t board[board_size];
+  board_map () { memset (&board, 0, board_size * sizeof (uint8_t)); }
 };
 
 enum chess_type {
