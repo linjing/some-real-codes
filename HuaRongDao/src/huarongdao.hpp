@@ -75,7 +75,6 @@ public:
 struct board_map {
   uint8_t board[board_size];
   board_map () { memset (&board, 0, board_size * sizeof (uint8_t)); }
-  board_map (const chessboard &chesses);
   std::string get_mask () const;
   size_t get_hash () const;
 };

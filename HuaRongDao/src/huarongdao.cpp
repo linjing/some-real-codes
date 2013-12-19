@@ -10,9 +10,6 @@
 
 using namespace std;
 
-board_map::board_map (const chessboard &chesses)
-{ memcpy (&board[0], &chesses.board_.board[0], board_size * sizeof (uint8_t)); }
-
 size_t board_map::get_hash () const {
   const uint8_t *p = &board[0];
   return boost::hash_range (p, p+board_size);

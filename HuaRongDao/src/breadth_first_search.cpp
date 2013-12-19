@@ -42,8 +42,7 @@ int main () {
   init_board (input_board);
 
   queue.push_back (input_board);
-  board_map bm (input_board);
-  seen.insert (bm);
+  seen.insert (input_board.board_);
 
   // BFS to results
   bool is_solved = false;
@@ -62,13 +61,12 @@ int main () {
     }
 #ifdef USE_LAMBDA
     curr.move ([&seen, &queue] (const chessboard &next) {
-        board_map bm (next);
-        if (seen.find (bm) == seen.end ()) {
+        if (seen.find (next.board_) == seen.end ()) {
 #ifdef DEBUG
           cout << "mask: " << bm.get_mask () << endl;
 #endif
           queue.push_back (next);
-          seen.insert (bm);
+          seen.insert (next.board_);
           }
         });
 #else
