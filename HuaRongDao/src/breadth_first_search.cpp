@@ -59,36 +59,16 @@ int main () {
       cout << "steps " << curr.steps << endl;
       break; // down here
     }
-#ifdef USE_LAMBDA
+
     curr.move ([&seen, &queue] (const chessboard &next) {
-        if (seen.find (next.board_) == seen.end ()) {
+      if (seen.find (next.board_) == seen.end ()) {
 #ifdef DEBUG
-          cout << "mask: " << bm.get_mask () << endl;
+        cout << "mask: " << bm.get_mask () << endl;
 #endif
-          queue.push_back (next);
-          seen.insert (next.board_);
-          }
-        });
-#else
-    auto move_res = curr.can_move_steps ();
-#ifdef DEBUG
-    cout << move_res.size () << endl;
-#endif
-    for (auto res : move_res) {
-#ifdef DEBUG
-      cout <<  " move result" << endl;
-      res.show ();
-#endif
-      board_map bm (res);
-      if (seen.find (bm) != seen.end ())
-        continue;
-#ifdef DEBUG
-      cout << "mask: " << bm.get_mask () << endl;
-#endif
-      seen.insert (bm);
-      queue.push_back (res);
-    }
-#endif
+        queue.push_back (next);
+        seen.insert (next.board_);
+      }
+    });
   }
 
   cout << " " <<  is_solved << endl;

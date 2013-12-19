@@ -208,36 +208,6 @@ void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 }
 
-std::deque<chessboard> chessboard::can_move_steps () const {
-  std::deque<chessboard> res;
-  for (auto it = chesses.begin (); it != chesses.end (); ++it) {
-    if (can_to_down (*it, board_)) {
-      chessboard board (*this);
-      move_down (*it, board.board_, board.chesses);
-      board.steps ++;
-      res.push_back (board);
-    }
-    if (can_to_up (*it, board_)) {
-      chessboard board (*this);
-      move_up (*it, board.board_, board.chesses);
-      board.steps ++;
-      res.push_back (board);
-    }
-    if (can_to_right (*it, board_)) {
-      chessboard board (*this);
-      move_right (*it, board.board_, board.chesses);
-      board.steps ++;
-      res.push_back (board);
-    }
-    if (can_to_left (*it, board_)) {
-      chessboard board (*this);
-      move_left (*it, board.board_, board.chesses);
-      board.steps ++;
-      res.push_back (board);
-    }
-  }
-  return res;
-}
 
 struct chess_id get_chess (chess_type type) {
   chess_id id;

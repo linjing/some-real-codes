@@ -88,7 +88,6 @@ public:
   void push_chess (chess &c);
   bool is_solved () const;
   void show () const;
-  std::deque<chessboard> can_move_steps () const;
   template <typename append_next_step>
   void move (const append_next_step &func) const;
 };
