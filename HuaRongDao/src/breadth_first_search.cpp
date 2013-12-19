@@ -34,7 +34,7 @@ void init_board (chessboard &input_board) {
 }
 
 int main () {
-  unordered_set<board_mask> seen; // add known board
+  unordered_set<board_map> seen; // add known board
   deque<chessboard> queue;
 
   // init, fill chess to board
@@ -42,7 +42,7 @@ int main () {
   init_board (input_board);
 
   queue.push_back (input_board);
-  board_mask bm (input_board);
+  board_map bm (input_board);
   seen.insert (bm);
 
   // BFS to results
@@ -62,7 +62,7 @@ int main () {
     }
 #ifdef USE_LAMBDA
     curr.move ([&seen, &queue] (const chessboard &next) {
-        board_mask bm (next);
+        board_map bm (next);
         if (seen.find (bm) == seen.end ()) {
 #ifdef DEBUG
           cout << "mask: " << bm.get_mask () << endl;
@@ -81,7 +81,7 @@ int main () {
       cout <<  " move result" << endl;
       res.show ();
 #endif
-      board_mask bm (res);
+      board_map bm (res);
       if (seen.find (bm) != seen.end ())
         continue;
 #ifdef DEBUG

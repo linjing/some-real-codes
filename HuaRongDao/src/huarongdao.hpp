@@ -16,6 +16,7 @@ const int board_size = max_row * max_col;
 
 class chessboard;
 class chess;
+struct board_map;
 
 enum chess_type {
   cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
@@ -53,11 +54,6 @@ struct chess_id {
 
 struct chess_id get_chess (chess_type type);
 
-struct board_map {
-  uint8_t board[board_size];
-  board_map () { memset (&board, 0, board_size * sizeof (uint8_t)); }
-};
-
 class chess {
 public:
   chess (const chess_type &type, const point &p)
@@ -76,6 +72,13 @@ public:
 //  up, down, right, left
 //};
 
+struct board_map {
+  uint8_t board[board_size];
+  board_map () { memset (&board, 0, board_size * sizeof (uint8_t)); }
+  board_map (const chessboard &chesses);
+  std::string get_mask () const;
+  size_t get_hash () const;
+};
 
 class chessboard {
 public:
@@ -91,30 +94,23 @@ public:
   void move (const append_next_step &func) const;
 };
 
-struct board_mask {
-  struct board_map board;
-  board_mask (const chessboard &chesses);
-  std::string get_mask () const;
-  size_t get_hash () const;
-};
-
 namespace std {
   template <>
-  struct hash<board_mask> {
-    size_t operator () (const board_mask&m) const {
+  struct hash<board_map> {
+    size_t operator () (const board_map&m) const {
       return m.get_hash ();
     }
   };
 }
 
-struct board_mask_less {
-  bool operator () (const board_mask &l, const board_mask &r) {
+struct board_map_less {
+  bool operator () (const board_map &l, const board_map &r) {
     return l.get_mask () < r.get_mask ();
   }
 };
 
-bool operator == (const board_mask &l, const board_mask &r);
-bool operator < (const board_mask &l, const board_mask &r);
+bool operator == (const board_map &l, const board_map &r);
+bool operator < (const board_map &l, const board_map &r);
 bool operator == (const point &l, const point &r);
 
 #endif

@@ -10,21 +10,20 @@
 
 using namespace std;
 
-board_mask::board_mask (const chessboard &chesses)
-  : board (chesses.board_) 
-{}
+board_map::board_map (const chessboard &chesses)
+{ memcpy (&board[0], &chesses.board_.board[0], board_size * sizeof (uint8_t)); }
 
-size_t board_mask::get_hash () const {
-  const uint8_t *p = &board.board[0];
+size_t board_map::get_hash () const {
+  const uint8_t *p = &board[0];
   return boost::hash_range (p, p+board_size);
 }
 
-bool operator == (const board_mask &l, const board_mask &r) {
-  return memcmp ((char*)&l.board.board[0], &r.board.board[0], board_size*sizeof (uint8_t)) == 0;
+bool operator == (const board_map &l, const board_map &r) {
+  return memcmp ((char*)&l.board[0], &r.board[0], board_size*sizeof (uint8_t)) == 0;
 }
 
-bool operator < (const board_mask &l, const board_mask &r) {
-  return memcmp ((char*)&l.board.board[0], &r.board.board[0], board_size*sizeof (uint8_t)) < 0;
+bool operator < (const board_map &l, const board_map &r) {
+  return memcmp ((char*)&l.board[0], &r.board[0], board_size*sizeof (uint8_t)) < 0;
 }
 
 bool operator == (const point &l, const point &r) {
@@ -35,10 +34,10 @@ inline uint8_t to_pos (uint8_t row, uint8_t col) {
   return row * max_col + col;
 }
 
-std::string board_mask::get_mask () const {
+std::string board_map::get_mask () const {
   ostringstream oss;
   for (int i = 0; i < board_size; ++i)
-    oss << (int) board.board[i] << ",";
+    oss << (int) board[i] << ",";
   return oss.str ();
 }
 
