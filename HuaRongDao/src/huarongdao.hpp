@@ -17,6 +17,10 @@ const int board_size = max_row * max_col;
 class chessboard;
 class chess;
 
+enum chess_type {
+  cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
+};
+
 struct point {
   point () : pos (0) {}
   point (uint8_t r, uint8_t c) { pos = (r << 4) + c; }
@@ -29,15 +33,6 @@ struct point {
   uint8_t pos; // rrrrcccc
 };
 
-struct board_map {
-  uint8_t board[board_size];
-  board_map () { memset (&board, 0, board_size * sizeof (uint8_t)); }
-};
-
-enum chess_type {
-  cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
-};
-
 struct chess_id {
   uint8_t chess; // kkkkwwhh
 #ifdef DEBUG
@@ -46,7 +41,7 @@ struct chess_id {
 #endif
   chess_id () : chess (0) {
     //std::cout << "c1:" << (int) chess << std::endl;
-    }
+  }
   chess_id (uint8_t width, uint8_t height, uint8_t key) {
     chess = (key << 4) + (width << 2) + height;
     // std::cout << "c2:" << (int) chess << std::endl;
@@ -58,9 +53,14 @@ struct chess_id {
 
 struct chess_id get_chess (chess_type type);
 
+struct board_map {
+  uint8_t board[board_size];
+  board_map () { memset (&board, 0, board_size * sizeof (uint8_t)); }
+};
+
 class chess {
 public:
-  chess (chess_type type, point p)
+  chess (const chess_type &type, const point &p)
     : pos_ (p)
     { id_ = get_chess (type); }
 public:
