@@ -45,25 +45,14 @@ uint8_t chess_height (const chess_type &type);
 uint8_t chess_width (const chess_type &type);
 
 struct chess_id {
-  chess_id () : chess (0) {
-    //std::cout << "c1:" << (int) chess << std::endl;
-  }
-  chess_id (chess_type type) {
-    this->type = type;
-    chess = (((int) type) << 4) + (chess_width (type) << 2)
-      + chess_height (type);
-  }
+  chess_id () {}
+  chess_id (chess_type type) { this->type = type; }
 
-  inline uint8_t key () const { return chess >> 4; }
-  inline uint8_t width () const { return (chess >> 2) & 3; }
-  inline uint8_t height () const { return chess & 3; }
-private:
-  uint8_t chess; // kkkkwwhh
+  inline uint8_t key () const { return (uint8_t) type; }
+  inline uint8_t width () const { return chess_width (type); }
+  inline uint8_t height () const { return chess_height (type); }
 public:
   chess_type type;
-#ifdef DEBUG
-  std::string info;
-#endif
 };
 
 class chess {
