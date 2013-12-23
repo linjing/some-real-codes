@@ -31,6 +31,12 @@ struct point {
   inline void up () {pos += 16;}
   inline void left () {pos -= 1;}
   inline void right () {pos += 1;}
+  inline bool operator == (const point &r) const {
+    return pos == r.pos;
+  }
+  inline uint8_t get () const { return pos; }
+
+private:
   uint8_t pos; // rrrrcccc
 };
 
@@ -109,6 +115,5 @@ struct board_map_less {
 
 bool operator == (const board_map &l, const board_map &r);
 bool operator < (const board_map &l, const board_map &r);
-bool operator == (const point &l, const point &r);
 
 #endif

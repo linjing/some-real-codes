@@ -23,10 +23,6 @@ bool operator < (const board_map &l, const board_map &r) {
   return memcmp ((char*)&l.board[0], &r.board[0], board_size*sizeof (uint8_t)) < 0;
 }
 
-bool operator == (const point &l, const point &r) {
-  return l.pos == r.pos;
-}
-
 inline uint8_t to_pos (uint8_t row, uint8_t col) {
   return row * max_col + col;
 }
@@ -40,7 +36,7 @@ std::string board_map::get_mask () const {
 
 string chess::to_mask () const {
   ostringstream oss;
-  oss << (int) id_.chess << (int) pos_.pos;
+  oss << (int) id_.chess << (int) pos_.get ();
   return oss.str ();
 }
 
