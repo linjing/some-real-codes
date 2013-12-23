@@ -44,17 +44,6 @@ enum chess_type {
 uint8_t chess_height (const chess_type &type);
 uint8_t chess_width (const chess_type &type);
 
-struct chess_id {
-  chess_id () {}
-  chess_id (chess_type type) { this->type = type; }
-
-  inline uint8_t key () const { return (uint8_t) type; }
-  inline uint8_t width () const { return chess_width (type); }
-  inline uint8_t height () const { return chess_height (type); }
-public:
-  chess_type type;
-};
-
 class chess {
 public:
   chess (const chess_type &type, const point &p)
