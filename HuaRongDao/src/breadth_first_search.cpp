@@ -63,7 +63,7 @@ int main () {
     curr.move ([&seen, &queue] (const chessboard &next) {
       if (seen.find (next.board_) == seen.end ()) {
 #ifdef DEBUG
-        cout << "mask: " << bm.get_mask () << endl;
+        cout << "mask: " << next.board_.get_mask () << endl;
 #endif
         queue.push_back (next);
         seen.insert (next.board_);
