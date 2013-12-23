@@ -36,7 +36,7 @@ std::string board_map::get_mask () const {
 
 string chess::to_mask () const {
   ostringstream oss;
-  oss << (int) id_.chess << (int) pos_.get ();
+  oss << (int) id_.key () << (int) pos_.get ();
   return oss.str ();
 }
 
@@ -204,6 +204,40 @@ void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 }
 
+struct chess_info {
+  uint8_t key;
+  uint8_t width;
+  uint8_t height;
+  chess_type type;
+  std::string info;
+  chess_info () {}
+  chess_info (uint8_t width, uint8_t height, uint8_t key, chess_type type, string info) {
+    this->width = width;
+    this->height = height;
+    this->key = key;
+    this->type = type;
+    this->info = info;
+  }
+};
+
+const int chess_type_number = 5;
+chess_info chess_table[chess_type_number];
+
+void init_chess_table (chess_info (&chesses)[chess_type_number]) {
+  chesses[1] = chess_info (2, 2, 1, chess_type::cao_cao, "cao_cao");
+  chesses[2] = chess_info (2, 1, 2, chess_type::guan_yu, "guan_yu");
+  chesses[3] = chess_info (1, 2, 3, chess_type::w1_h2, "w1_h2");
+  chesses[4] = chess_info (1, 1, 4, chess_type::zu, "zu");
+}
+
+
+uint8_t chess_width (const chess_type &type) {
+  chess_table[(int) type].width;
+}
+
+uint8_t chess_height (const chess_type &type) {
+  chess_table[(int) type].height;
+}
 
 struct chess_id get_chess (chess_type type) {
   chess_id id;
@@ -222,27 +256,27 @@ struct chess_id get_chess (chess_type type) {
       id.type = type;
 #endif
       break;
-    case chess_type::zhang_fei:
-      id = chess_id (1, 2, 12);
-#ifdef DEBUG
-      id.info = "zhang_fei";
-      id.type = type;
-#endif
-      break;
-    case chess_type::zhao_yun:
-      id = chess_id (1, 2, 12);
-#ifdef DEBUG
-      id.info = "zhao_yun";
-      id.type = type;
-#endif
-      break;
-    case chess_type::ma_chao:
-      id = chess_id (1, 2, 12);
-#ifdef DEBUG
-      id.info = "ma_chao";
-      id.type = type;
-#endif
-      break;
+//    case chess_type::zhang_fei:
+//      id = chess_id (1, 2, 12);
+//#ifdef DEBUG
+//      id.info = "zhang_fei";
+//      id.type = type;
+//#endif
+//      break;
+//    case chess_type::zhao_yun:
+//      id = chess_id (1, 2, 12);
+//#ifdef DEBUG
+//      id.info = "zhao_yun";
+//      id.type = type;
+//#endif
+//      break;
+//    case chess_type::ma_chao:
+//      id = chess_id (1, 2, 12);
+//#ifdef DEBUG
+//      id.info = "ma_chao";
+//      id.type = type;
+//#endif
+//      break;
     case chess_type::huang_zhong:
       id = chess_id (1, 2, 12);
 #ifdef DEBUG

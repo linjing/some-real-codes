@@ -18,10 +18,6 @@ class chessboard;
 class chess;
 struct board_map;
 
-enum chess_type {
-  cao_cao, guan_yu, zhang_fei, zhao_yun, ma_chao, huang_zhong, zu
-};
-
 struct point {
   point () : pos (0) {}
   point (uint8_t r, uint8_t c) { pos = (r << 4) + c; }
@@ -40,12 +36,12 @@ private:
   uint8_t pos; // rrrrcccc
 };
 
+enum chess_type {
+  cao_cao = 1, guan_yu = 2, zhang_fei = 3, zhao_yun = 3, ma_chao = 3,
+  huang_zhong = 3, w1_h2 = 3, zu = 4
+};
+
 struct chess_id {
-  uint8_t chess; // kkkkwwhh
-#ifdef DEBUG
-  chess_type type;
-  std::string info;
-#endif
   chess_id () : chess (0) {
     //std::cout << "c1:" << (int) chess << std::endl;
   }
@@ -53,9 +49,21 @@ struct chess_id {
     chess = (key << 4) + (width << 2) + height;
     // std::cout << "c2:" << (int) chess << std::endl;
   }
+  chess_id (chess_type type) {
+#ifdef DEBUG
+    this->type = type;
+#endif
+  }
+
   inline uint8_t key () const { return chess >> 4; }
   inline uint8_t width () const { return (chess >> 2) & 3; }
   inline uint8_t height () const { return chess & 3; }
+private:
+  uint8_t chess; // kkkkwwhh
+#ifdef DEBUG
+  chess_type type;
+  std::string info;
+#endif
 };
 
 struct chess_id get_chess (chess_type type);
