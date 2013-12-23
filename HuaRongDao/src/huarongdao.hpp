@@ -48,10 +48,6 @@ struct chess_id {
   chess_id () : chess (0) {
     //std::cout << "c1:" << (int) chess << std::endl;
   }
-  chess_id (uint8_t width, uint8_t height, uint8_t key) {
-    chess = (key << 4) + (width << 2) + height;
-    // std::cout << "c2:" << (int) chess << std::endl;
-  }
   chess_id (chess_type type) {
     this->type = type;
     chess = (((int) type) << 4) + (chess_width (type) << 2)
@@ -69,8 +65,6 @@ public:
   std::string info;
 #endif
 };
-
-struct chess_id get_chess (chess_type type);
 
 class chess {
 public:

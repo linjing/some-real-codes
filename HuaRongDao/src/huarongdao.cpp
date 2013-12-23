@@ -251,62 +251,6 @@ uint8_t chess_height (const chess_type &type) {
   return chess_static_info::chess_table[(int) type].height;
 }
 
-struct chess_id get_chess (chess_type type) {
-  chess_id id;
-  switch (type) {
-    case chess_type::cao_cao:
-      id = chess_id (2, 2, 1);
-#ifdef DEBUG
-      id.info = "cao_cao";
-#endif
-      id.type = type;
-      break;
-    case chess_type::guan_yu:
-      id = chess_id (2, 1, 11);
-#ifdef DEBUG
-      id.info = "guan_yu";
-#endif
-      id.type = type;
-      break;
-//    case chess_type::zhang_fei:
-//      id = chess_id (1, 2, 12);
-//#ifdef DEBUG
-//      id.info = "zhang_fei";
-//      id.type = type;
-//#endif
-//      break;
-//    case chess_type::zhao_yun:
-//      id = chess_id (1, 2, 12);
-//#ifdef DEBUG
-//      id.info = "zhao_yun";
-//      id.type = type;
-//#endif
-//      break;
-//    case chess_type::ma_chao:
-//      id = chess_id (1, 2, 12);
-//#ifdef DEBUG
-//      id.info = "ma_chao";
-//      id.type = type;
-//#endif
-//      break;
-    case chess_type::huang_zhong:
-      id = chess_id (1, 2, 12);
-#ifdef DEBUG
-      id.info = "huang_zhong";
-#endif
-      id.type = type;
-      break;
-    case chess_type::zu:
-      id = chess_id (1, 1, 13);
-#ifdef DEBUG
-      id.info = "zu";
-#endif
-      id.type = type;
-      break;
-  }
-  return id;
-}
-
 void chessboard::show () const {
   for (int r = 0; r < max_row; ++r) {
     for (int c = 0; c < max_col; ++c)
