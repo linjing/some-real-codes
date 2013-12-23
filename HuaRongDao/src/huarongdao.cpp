@@ -220,18 +220,9 @@ struct chess_info {
   }
 };
 
-const int chess_type_number = 5;
-chess_info chess_table[chess_type_number];
-
-void init_chess_table (chess_info (&chesses)[chess_type_number]) {
-  chesses[1] = chess_info (2, 2, 1, chess_type::cao_cao, "cao_cao");
-  chesses[2] = chess_info (2, 1, 2, chess_type::guan_yu, "guan_yu");
-  chesses[3] = chess_info (1, 2, 3, chess_type::w1_h2, "w1_h2");
-  chesses[4] = chess_info (1, 1, 4, chess_type::zu, "zu");
-}
-
 class chess_static_info {
   public:
+    static const int chess_type_number = 5;
     static chess_info chess_table[chess_type_number];
 };
 
