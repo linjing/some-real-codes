@@ -58,7 +58,7 @@ public:
 class chess {
 public:
   chess (const chess_type &type, const point &p)
-    : pos_ (p)
+    : pos_ (p), type_ (type)
     { id_ = chess_id (type); }
 public:
   std::string to_mask () const;
@@ -67,6 +67,7 @@ public:
 public:
   point pos_;
   chess_id id_;
+  chess_type type_;
 };
 
 //enum direction {
