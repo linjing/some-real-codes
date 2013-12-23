@@ -36,13 +36,13 @@ std::string board_map::get_mask () const {
 
 string chess::to_mask () const {
   ostringstream oss;
-  oss << (int) id_.key () << (int) pos_.get ();
+  oss << (int) key () << (int) pos_.get ();
   return oss.str ();
 }
 
 void chess::fill_board (board_map &board) const {
-  for (int r = 0; r < id_.height (); ++r)
-    for (int c = 0; c < id_.width (); ++c) {
+  for (int r = 0; r < height (); ++r)
+    for (int c = 0; c < width (); ++c) {
       // cout << "board.board_[" << pos_.row + r << "][" << pos_.col + c << "]" << endl;
       assert (board.board[to_pos (pos_.row () + r, pos_.col () + c)] == 0);
       board.board[to_pos (pos_.row () + r, pos_.col () + c)] = this->key ();
@@ -83,7 +83,7 @@ row 4:
 */
 
 inline int right (const chess &c) {
-  return c.pos_.col () + c.id_.width () - 1;
+  return c.pos_.col () + c.width () - 1;
 }
 inline int left (const chess &c) {
   return c.pos_.col ();
@@ -93,7 +93,7 @@ inline int bottom (const chess &c) {
 }
 
 inline int top (const chess &c) {
-  return c.pos_.row () + c.id_.height () - 1;
+  return c.pos_.row () + c.height () - 1;
 }
 
 bool can_to_right (const chess &c, const board_map &board) {
@@ -151,7 +151,7 @@ void move_down (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
-    board.board[to_pos (dest_row, col)] = c.id_.key ();
+    board.board[to_pos (dest_row, col)] = c.key ();
     board.board[to_pos (from_row, col)] = 0;
   }
 }
@@ -167,7 +167,7 @@ void move_up (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int col = left (c);  col <= right (c); ++col) {
-    board.board[to_pos (dest_row, col)] = c.id_.key ();
+    board.board[to_pos (dest_row, col)] = c.key ();
     board.board[to_pos (from_row, col)] = 0;
   }
 }
@@ -183,7 +183,7 @@ void move_left (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
-    board.board[to_pos (row, dest_col)] = c.id_.key ();
+    board.board[to_pos (row, dest_col)] = c.key ();
     board.board[to_pos (row, from_col)] = 0;
   }
 }
@@ -199,7 +199,7 @@ void move_right (const chess &c, board_map &board, vector<chess> &chesses) {
   }
 
   for (int row = bottom (c);  row <= top (c); ++row) {
-    board.board[to_pos (row, dest_col)] = c.id_.key ();
+    board.board[to_pos (row, dest_col)] = c.key ();
     board.board[to_pos (row, from_col)] = 0;
   }
 }

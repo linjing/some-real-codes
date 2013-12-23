@@ -58,15 +58,17 @@ public:
 class chess {
 public:
   chess (const chess_type &type, const point &p)
-    : pos_ (p), type_ (type)
-    { id_ = chess_id (type); }
+    : pos_ (p), type_ (type) {}
 public:
   std::string to_mask () const;
-  int key () const { return id_.key (); }
   void fill_board (board_map &board) const;
 public:
+  inline uint8_t key () const { return (uint8_t) type_; }
+  inline uint8_t width () const { return chess_width (type_); }
+  inline uint8_t height () const { return chess_height (type_); }
+public:
   point pos_;
-  chess_id id_;
+private:
   chess_type type_;
 };
 
