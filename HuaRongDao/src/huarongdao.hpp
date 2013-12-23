@@ -41,6 +41,9 @@ enum chess_type {
   huang_zhong = 3, w1_h2 = 3, zu = 4
 };
 
+uint8_t chess_height (const chess_type &type);
+uint8_t chess_width (const chess_type &type);
+
 struct chess_id {
   chess_id () : chess (0) {
     //std::cout << "c1:" << (int) chess << std::endl;
@@ -51,6 +54,8 @@ struct chess_id {
   }
   chess_id (chess_type type) {
     this->type = type;
+    chess = (((int) type) << 4) + (chess_width (type) << 2)
+      + chess_height (type);
   }
 
   inline uint8_t key () const { return chess >> 4; }
@@ -71,7 +76,7 @@ class chess {
 public:
   chess (const chess_type &type, const point &p)
     : pos_ (p)
-    { id_ = get_chess (type); }
+    { id_ = chess_id (type); }
 public:
   std::string to_mask () const;
   int key () const { return id_.key (); }

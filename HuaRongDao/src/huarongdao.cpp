@@ -230,13 +230,25 @@ void init_chess_table (chess_info (&chesses)[chess_type_number]) {
   chesses[4] = chess_info (1, 1, 4, chess_type::zu, "zu");
 }
 
+class chess_static_info {
+  public:
+    static chess_info chess_table[chess_type_number];
+};
+
+chess_info chess_static_info::chess_table[chess_type_number] = {
+  {1, 1, 4, chess_type::zu, "zu"}, // FIXME not used
+  {2, 2, 1, chess_type::cao_cao, "cao_cao"},
+  {2, 1, 2, chess_type::guan_yu, "guan_yu"},
+  {1, 2, 3, chess_type::w1_h2, "w1_h2"},
+  {1, 1, 4, chess_type::zu, "zu"}
+};
 
 uint8_t chess_width (const chess_type &type) {
-  chess_table[(int) type].width;
+  return chess_static_info::chess_table[(int) type].width;
 }
 
 uint8_t chess_height (const chess_type &type) {
-  chess_table[(int) type].height;
+  return chess_static_info::chess_table[(int) type].height;
 }
 
 struct chess_id get_chess (chess_type type) {
