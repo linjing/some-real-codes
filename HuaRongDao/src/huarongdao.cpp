@@ -246,15 +246,15 @@ struct chess_id get_chess (chess_type type) {
       id = chess_id (2, 2, 1);
 #ifdef DEBUG
       id.info = "cao_cao";
-      id.type = type;
 #endif
+      id.type = type;
       break;
     case chess_type::guan_yu:
       id = chess_id (2, 1, 11);
 #ifdef DEBUG
       id.info = "guan_yu";
-      id.type = type;
 #endif
+      id.type = type;
       break;
 //    case chess_type::zhang_fei:
 //      id = chess_id (1, 2, 12);
@@ -281,15 +281,15 @@ struct chess_id get_chess (chess_type type) {
       id = chess_id (1, 2, 12);
 #ifdef DEBUG
       id.info = "huang_zhong";
-      id.type = type;
 #endif
+      id.type = type;
       break;
     case chess_type::zu:
       id = chess_id (1, 1, 13);
 #ifdef DEBUG
       id.info = "zu";
-      id.type = type;
 #endif
+      id.type = type;
       break;
   }
   return id;

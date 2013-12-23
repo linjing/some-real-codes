@@ -50,9 +50,7 @@ struct chess_id {
     // std::cout << "c2:" << (int) chess << std::endl;
   }
   chess_id (chess_type type) {
-#ifdef DEBUG
     this->type = type;
-#endif
   }
 
   inline uint8_t key () const { return chess >> 4; }
@@ -60,8 +58,9 @@ struct chess_id {
   inline uint8_t height () const { return chess & 3; }
 private:
   uint8_t chess; // kkkkwwhh
-#ifdef DEBUG
+public:
   chess_type type;
+#ifdef DEBUG
   std::string info;
 #endif
 };
