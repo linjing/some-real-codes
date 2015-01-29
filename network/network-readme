@@ -1,0 +1,13 @@
+Socket
+libevent
+Buffer event （加协议头， 有协议主体的长度， 尽量把 协议和IO 分开）
+Protocol-buffer/zmq (把协议和IO 分开)
+（Http等）在应用层的协议上， 再开发
+
+
+
+
+
+
+
+
