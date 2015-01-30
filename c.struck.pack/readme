@@ -1,0 +1,16 @@
+
+
+
+== use case 1 ==
+
+
+#pragma pack (N)
+...
+#pragma pack ()
+
+
+==  use case 2 ==
+
+#pragma pack (push, N)
+...
+#pragma pack (pop)
